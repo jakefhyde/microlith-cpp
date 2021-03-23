@@ -1,48 +1,56 @@
-// MIT License
-
-// Copyright (c) 2021 Dragozir
-
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+/*!
+ * \file services.h
+ * 
+ * This file is part of the microlith library.
+ * microlith is free software, licensed under the MIT License. A copy of the
+ * license is provided with the library in the LICENSE file.
+ * 
+ */
 
 #ifndef MICROLITH_SERVICES_H
 #define MICROLITH_SERVICES_H
 
+#include <ctti/type_id.hpp>
 #include <memory>
+#include <unordered_set>
 
 namespace services
 {
 
+using interface_id = std::string;
+using service_id   = std::string;
+
+namespace detail
+{
+
+template <typename T>
+interface_id get_interface_id()
+{
+    return ctti::nameof<T>().str();
+}
+
+} // namespace detail
+
 class abstract_service
 {
 public:
-};
+    virtual ~abstract_service();
+
+    virtual std::unordered_set<interface_id> provides() const;
+    virtual std::unordered_set<interface_id> receives() const;
+
+    virtual void _receive_services(std::shared_ptr<abstract_service> service);
+
+}; // class abstract_service
 
 template <typename T>
-class service 
-    : public abstract_service
+class service : public virtual abstract_service
 {
 public:
-}; // service
+}; // class service
 
 template <typename T>
-class service_interface
-    : public virtual abstract_service
+class service_interface : public virtual abstract_service
 {
 public:
 }; // class service_interface
@@ -56,46 +64,61 @@ public:
 }; // class provides_service
 
 template <typename T>
-class receives_service
-    : public virtual abstract_service
+class receives_service : public virtual abstract_service
 {
 public:
-    virtual void receive(std::shared_ptr<T> service) {};
+    virtual void receive(std::shared_ptr<T> service)
+    {
+    }
+
+    void _receive_service(std::shared_ptr<abstract_service> service)
+    {
+        const auto& receives = this->receives();
+        for (auto provider : service->provides()) {
+            if (receives.find(provider) == std::end(receives)) {
+                continue;
+            }
+
+            receive(std::dynamic_pointer_cast<T>(service));
+        }
+    }
 
 }; // class receives_service
 
 template <typename... Args>
-class provides_services
-    : public provides_service<T>
+class provides_services : public provides_service<Args>...
 {
 public:
+    std::unordered_set<interface_id> provides() const override
+    {
+        return {detail::get_interface_id<Args>()...};
+    }
+
 }; // class provides_service
 
 template <typename... Args>
-class receives_services
-    : public receives_services<Args...>
+class receives_services : public receives_service<Args>...
 {
 public:
-    virtual void receive(std::shared_ptr<T> service) {};
-}; // receives_services
+    std::unordered_set<interface_id> receives() const override
+    {
+        return {detail::get_interface_id<Args>()...};
+    }
 
-class service_discoverer
-    : public service_interface<service_discoverer>
+    void _receive_services(std::shared_ptr<abstract_service> service)
+    {
+        (receives_service<Args>::_receive_service(service), ...);
+    }
+
+}; // class receives_services
+
+class service_discovery_interface
+    : public service_interface<service_discovery_interface>
 {
 public:
     virtual void discover(std::shared_ptr<abstract_service> service) = 0;
-}; // service_discoverer
 
-class in_process_service_discoverer
-    : public service<in_process_service_discoverer>
-    , public provides_services<service_discoverer>
-{
-public:
-    void discover(std::shared_ptr<abstract_service> service) override
-    {
-
-    }
-}; // in_process_service_discoverer
+}; // class service_discovery_interface
 
 } // namespace services
 

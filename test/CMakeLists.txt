@@ -1,7 +1,7 @@
 
-add_executable(microlithic-test services-test.cpp)
+add_executable(microlith-test services-test.cpp)
 
-target_link_libraries(microlithic-test
+target_link_libraries(microlith-test
   PUBLIC
-    microlithic
+    microlith
 )
