@@ -28,5 +28,6 @@ class MicrolithCppConan(ConanFile):
 
     def build(self):
         cmake = CMake(self)
+        cmake.definitions['MICROLITH_VERSION'] = self.version
         cmake.configure()
         cmake.build()
