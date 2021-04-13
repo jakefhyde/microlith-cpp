@@ -3,8 +3,8 @@ from conans import ConanFile, CMake
 
 class MicrolithCppConan(ConanFile):
     name = "microlith"
-    version = "0.0.2"
-    description = "C++ [micro]service framework"
+    version = "0.0.3"
+    description = "C++ subscription-based DI framework"
     url = "https://github.com/dragozir/microlith"
     license = "MIT"
     author = "Jake F Hyde (dragozir@gmail.com)"

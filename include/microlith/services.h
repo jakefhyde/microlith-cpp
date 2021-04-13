@@ -1,20 +1,22 @@
 /*!
  * \file services.h
- * 
+ *
  * This file is part of the microlith library.
  * microlith is free software, licensed under the MIT License. A copy of the
  * license is provided with the library in the LICENSE file.
- * 
+ *
  */
 
 #ifndef MICROLITH_SERVICES_H
 #define MICROLITH_SERVICES_H
 
+#include "detail/log.h"
+
 #include <ctti/type_id.hpp>
 #include <memory>
 #include <unordered_set>
 
-namespace services
+namespace microlith
 {
 
 using interface_id = std::string;
@@ -29,12 +31,20 @@ interface_id get_interface_id()
     return ctti::nameof<T>().str();
 }
 
+template <typename T>
+service_id get_service_id()
+{
+    return ctti::nameof<T>().str();
+}
+
 } // namespace detail
 
 class abstract_service
 {
 public:
     virtual ~abstract_service();
+
+    virtual service_id id() const;
 
     virtual std::unordered_set<interface_id> provides() const;
     virtual std::unordered_set<interface_id> receives() const;
@@ -47,6 +57,10 @@ template <typename T>
 class service : public virtual abstract_service
 {
 public:
+    service_id id() const override
+    {
+        return detail::get_service_id<T>();
+    }
 }; // class service
 
 template <typename T>
@@ -67,7 +81,7 @@ template <typename T>
 class receives_service : public virtual abstract_service
 {
 public:
-    virtual void receive(std::shared_ptr<T> service)
+    virtual void receive(std::shared_ptr<T> /* service */)
     {
     }
 
@@ -79,6 +93,8 @@ public:
                 continue;
             }
 
+            MICROLITH_TRACE("{} receiving {} as {}", abstract_service::id(),
+                            service->id(), provider);
             receive(std::dynamic_pointer_cast<T>(service));
         }
     }
@@ -120,6 +136,6 @@ public:
 
 }; // class service_discovery_interface
 
-} // namespace services
+} // namespace microlith
 
 #endif // MICROLITH_SERVICES_H

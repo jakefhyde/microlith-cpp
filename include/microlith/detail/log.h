@@ -1,0 +1,15 @@
+#ifndef MICROLITH_DETAIL_LOG_H
+#define MICROLITH_DETAIL_LOG_H
+
+#ifndef MICROLITH_NO_SPDLOG
+#include <spdlog/spdlog.h>
+#define MICROLITH_TRACE(...)    SPDLOG_TRACE(__VA_ARGS__)
+#define MICROLITH_DEBUG(...)    SPDLOG_DEBUG(__VA_ARGS__)
+#define MICROLITH_INFO(...)     SPDLOG_INFO(__VA_ARGS__)
+#define MICROLITH_WARN(...)     SPDLOG_WARN(__VA_ARGS__)
+#define MICROLITH_ERROR(...)    SPDLOG_ERROR(__VA_ARGS__)
+#define MICROLITH_CRITICAL(...) SPDLOG_CRITICAL(__VA_ARGS__)
+#define MICROLITH_OFF(...)      SPDLOG_OFF(__VA_ARGS__)
+#endif
+
+#endif // MICROLITH_DETAIL_LOG_H

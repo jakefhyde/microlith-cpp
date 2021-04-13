@@ -10,8 +10,10 @@ conan_cmake_run(CONANFILE conanfile.py
                 BUILD missing)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -pedantic")
 
 add_library(microlith
+  include/microlith/detail/log.h
   include/microlith/services.h
   src/abstract_service.cpp
   src/executable_interface.cpp
@@ -19,13 +21,18 @@ add_library(microlith
   src/service_executor.cpp
 )
 
-target_include_directories(microlith PUBLIC
-  ${CMAKE_CURRENT_SOURCE_DIR}/include
+target_include_directories(microlith 
+  PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+  PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/detail
 )
 
 target_link_libraries(microlith 
   PUBLIC 
-    CONAN_PKG::ctti  
+    CONAN_PKG::ctti
+    CONAN_PKG::spdlog  
 )
 
 add_subdirectory(test)

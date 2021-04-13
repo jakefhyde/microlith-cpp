@@ -13,7 +13,7 @@
 #include "microlith/services.h"
 #include <unordered_set>
 
-namespace services
+namespace microlith
 {
 
 class executable_interface
@@ -25,6 +25,6 @@ public:
 
 }; // class executable_interface
 
-} // namespace services
+} // namespace microlith
 
 #endif // MICROLITH_EXECUTABLE_INTERFACE_H

@@ -1,2 +1,3 @@
 # microlith-cpp
-C++ [micro]service framework 
+
+C++ subscription-based DI framework

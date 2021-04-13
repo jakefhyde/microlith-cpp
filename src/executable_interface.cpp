@@ -1,6 +1,6 @@
 #include "microlith/executable_interface.h"
 
-using namespace services;
+using namespace microlith;
 
 void executable_interface::start()
 {

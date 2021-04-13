@@ -1,6 +1,6 @@
 #include "microlith/service_executor.h"
 
-using namespace services;
+using namespace microlith;
 
 service_executor::~service_executor()
 {
@@ -22,6 +22,7 @@ void service_executor::start()
 {
     if (started())
     {
+        MICROLITH_DEBUG("{} already started", id());
         return;
     }
 

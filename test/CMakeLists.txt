@@ -1,7 +1,16 @@
 
-add_executable(microlith-test services-test.cpp)
+find_package(GTest REQUIRED)
+include(GoogleTest)
 
-target_link_libraries(microlith-test
-  PUBLIC
-    microlith
+add_executable(microlith-tests 
+  test-in_process_service_discoverer.cpp
+  test-service_executor.cpp
 )
+
+target_link_libraries(microlith-tests
+  microlith
+  GTest::GTest
+  GTest::Main
+)
+
+gtest_discover_tests(microlith-tests)

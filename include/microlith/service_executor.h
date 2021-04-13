@@ -15,7 +15,7 @@
 
 #include <unordered_set>
 
-namespace services
+namespace microlith
 {
 
 class service_executor
@@ -35,11 +35,10 @@ public:
 
 private:
     std::unordered_set<std::shared_ptr<executable_interface>> _services{};
-    std::unordered_set<std::shared_ptr<executable_interface>>
-        _running_services{};
+    std::unordered_set<std::shared_ptr<executable_interface>> _running_services{};
 
 }; // class service_executor
 
-} // namespace services
+} // namespace microlith
 
 #endif // MICROLITH_SERVICE_EXECUTOR_H
