@@ -6,22 +6,29 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 include(cmake/conan-util.cmake)
 conan_cmake_run(CONANFILE conanfile.py
-                BASIC_SETUP CMAKE_TARGETS
-                BUILD missing)
+  BASIC_SETUP
+  CMAKE_TARGETS
+  BUILD missing
+)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -pedantic")
 
-add_library(microlith
+set(PUBLIC_HEADERS
   include/microlith/detail/log.h
   include/microlith/services.h
+)
+
+set(SOURCES
   src/abstract_service.cpp
   src/executable_interface.cpp
   src/in_process_service_discoverer.cpp
   src/service_executor.cpp
 )
 
-target_include_directories(microlith 
+add_library(microlith ${PUBLIC_HEADERS} ${SOURCES})
+
+target_include_directories(microlith
   PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
   PRIVATE
@@ -29,25 +36,10 @@ target_include_directories(microlith
     ${CMAKE_CURRENT_SOURCE_DIR}/include/detail
 )
 
-target_link_libraries(microlith 
-  PUBLIC 
+target_link_libraries(microlith
+  PUBLIC
     CONAN_PKG::ctti
-    CONAN_PKG::spdlog  
+    CONAN_PKG::spdlog
 )
 
 add_subdirectory(test)
-
-find_package(Doxygen)
-if(DOXYGEN_FOUND)
-    configure_file(
-        "${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in"
-        "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile"
-        IMMEDIATE @ONLY
-    )
-    add_custom_target(docs
-        "${DOXYGEN_EXECUTABLE}"
-        "${CMAKE_CURRENT_BINARY_DIR}/Doxyfile"
-    )
-else()
-    message(WARNING "Doxygen not found, documentation will not be built")
-endif()

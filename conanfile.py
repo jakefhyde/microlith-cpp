@@ -26,8 +26,16 @@ class MicrolithCppConan(ConanFile):
     exports_sources = "cmake/*", "CMakeLists.txt", "include/*", "src/*", "test/*"
     generators = "cmake"
 
-    def build(self):
+    def _configure_cmake(self):
         cmake = CMake(self)
         cmake.definitions['MICROLITH_VERSION'] = self.version
         cmake.configure()
+        return cmake
+
+    def build(self):
+        cmake = self._configure_cmake()
         cmake.build()
+
+    def package(self):
+        cmake = self._configure_cmake()
+        cmake.install()
