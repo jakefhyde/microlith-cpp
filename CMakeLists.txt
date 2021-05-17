@@ -16,6 +16,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -pedantic")
 
 set(PUBLIC_HEADERS
   include/microlith/detail/log.h
+  include/microlith/executable_interface.h
+  include/microlith/in_process_service_discoverer.h
+  include/microlith/service_executor.h
   include/microlith/services.h
 )
 
@@ -27,6 +30,11 @@ set(SOURCES
 )
 
 add_library(microlith ${PUBLIC_HEADERS} ${SOURCES})
+
+set_target_properties(microlith
+  PROPERTIES
+    PUBLIC_HEADER "${PUBLIC_HEADERS}"
+)
 
 target_include_directories(microlith
   PUBLIC
@@ -43,3 +51,8 @@ target_link_libraries(microlith
 )
 
 add_subdirectory(test)
+
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/include"
+  DESTINATION "include/microlith"
+  FILES_MATCHING PATTERN "*.h"
+)
