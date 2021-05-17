@@ -50,6 +50,7 @@ target_link_libraries(microlith
     CONAN_PKG::spdlog
 )
 
+enable_testing()
 add_subdirectory(test)
 
 install(DIRECTORY "${CMAKE_SOURCE_DIR}/include"

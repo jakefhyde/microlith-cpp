@@ -30,15 +30,15 @@
 #include "microlith/in_process_service_discoverer.h"
 #include "microlith/services.h"
 
-class test_interface : public microlith::service_interface<test_interface> {
+class empty_interface : public microlith::service_interface<test_interface> {
  public:
 };
 
 class test_service : public microlith::service<test_service>,
-                     public microlith::provides_services<test_interface>,
-                     public microlith::receives_services<test_interface> {
+                     public microlith::provides_services<empty_interface>,
+                     public microlith::receives_services<empty_interface> {
  public:
-  void receive(std::shared_ptr<test_interface> service) override {
+  void receive(std::shared_ptr<empty_interface> service) override {
     ASSERT_EQ(id(), service->id());
     ASSERT_EQ(provides(), service->provides());
     ASSERT_EQ(receives(), service->receives());

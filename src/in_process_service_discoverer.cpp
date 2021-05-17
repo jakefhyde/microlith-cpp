@@ -31,10 +31,11 @@ namespace microlith {
 
 void in_process_service_discoverer::discover(
     std::shared_ptr<abstract_service> service) {
-  MICROLITH_DEBUG("Discovering {}", service->id());
+  auto id = service->id();
+  MICROLITH_DEBUG("Discovering {}", id);
 
   if (has_service(service->id())) {
-    MICROLITH_DEBUG("{} already discovered", service->id());
+    MICROLITH_DEBUG("{} already discovered", id);
     return;
   }
 
@@ -45,7 +46,7 @@ void in_process_service_discoverer::discover(
 
   service->_receive_services(service);
 
-  _services.emplace(service->id(), std::move(service));
+  _services.emplace(id, std::move(service));
 }
 
 bool in_process_service_discoverer::has_service(service_id id) {

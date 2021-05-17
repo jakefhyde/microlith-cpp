@@ -10,10 +10,15 @@ class MicrolithCppConan(ConanFile):
     author = "Jake F Hyde (dragozir@gmail.com)"
     settings = "os", "compiler", "build_type", "arch"
     options = {
+        'build_type': ['Debug', 'Release'],
         'shared': [True, False],
         'fPIC': [True, False]
     }
-    default_options = {'shared': True, 'fPIC': True}
+    default_options = {
+        'build_type': 'Release',
+        'shared': True,
+        'fPIC': True
+    }
     requires = (
         "ctti/0.0.2",
         "gtest/1.10.0",
@@ -35,6 +40,7 @@ class MicrolithCppConan(ConanFile):
     def build(self):
         cmake = self._configure_cmake()
         cmake.build()
+        cmake.test()
 
     def package(self):
         cmake = self._configure_cmake()
