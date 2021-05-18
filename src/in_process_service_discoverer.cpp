@@ -34,7 +34,7 @@ void in_process_service_discoverer::discover(
   auto id = service->id();
   MICROLITH_DEBUG("Discovering {}", id);
 
-  if (has_service(service->id())) {
+  if (has_service(id)) {
     MICROLITH_DEBUG("{} already discovered", id);
     return;
   }

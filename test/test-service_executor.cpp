@@ -32,8 +32,8 @@
 #include "microlith/service_executor.h"
 #include "microlith/services.h"
 
-class test_service1
-    : public microlith::service<test_service1>,
+class test_executable
+    : public microlith::service<test_executable>,
       public microlith::provides_services<microlith::executable_interface> {
  public:
   void start() override { _running = true; }
@@ -46,7 +46,7 @@ class test_service1
 TEST(ServiceExecutorTest, StartAndStop) {
   auto app = std::make_shared<microlith::in_process_service_discoverer>();
 
-  auto service = std::make_shared<test_service1>();
+  auto service = std::make_shared<test_executable>();
   auto executor = std::make_shared<microlith::service_executor>();
 
   app->discover(service);
