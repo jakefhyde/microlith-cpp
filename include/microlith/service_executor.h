@@ -41,8 +41,8 @@
 namespace microlith {
 
 class service_executor : public service<service_executor>,
-                         public provides_services<executable_interface>,
-                         public receives_services<executable_interface> {
+                         public provides_services<executable_interface<0>>,
+                         public receives_services<executable_interface<0>> {
  public:
   ~service_executor() override;
 
@@ -54,8 +54,9 @@ class service_executor : public service<service_executor>,
   bool started();
 
  private:
-  std::unordered_set<std::shared_ptr<executable_interface>> _services{};
-  std::unordered_set<std::shared_ptr<executable_interface>> _running_services{};
+  std::unordered_set<std::shared_ptr<executable_interface<0>>> _services{};
+  std::unordered_set<std::shared_ptr<executable_interface<0>>>
+      _running_services{};
 };  // class service_executor
 
 }  // namespace microlith

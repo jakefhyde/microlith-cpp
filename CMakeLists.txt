@@ -31,10 +31,16 @@ set(SOURCES
 
 add_library(microlith ${PUBLIC_HEADERS} ${SOURCES})
 
-set_target_properties(microlith
-  PROPERTIES
-    PUBLIC_HEADER "${PUBLIC_HEADERS}"
+set(DEPS CONAN_PKG::ctti)
+
+if(DEFINED MICROLITH_NO_SPDLOG)
+target_compile_definitions(microlith
+  PUBLIC
+    MICROLITH_NO_SPDLOG=1
 )
+else()
+list(APPEND DEPS CONAN_PKG::spdlog)
+endif()
 
 target_include_directories(microlith
   PUBLIC
@@ -46,14 +52,14 @@ target_include_directories(microlith
 
 target_link_libraries(microlith
   PUBLIC
-    CONAN_PKG::ctti
-    CONAN_PKG::spdlog
+    ${DEPS}
 )
 
 enable_testing()
 add_subdirectory(test)
 
-install(DIRECTORY "${CMAKE_SOURCE_DIR}/include"
+install(FILES ${PUBLIC_HEADERS}
   DESTINATION "include/microlith"
-  FILES_MATCHING PATTERN "*.h"
 )
+
+install(TARGETS microlith)

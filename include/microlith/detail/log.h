@@ -37,6 +37,14 @@
 #define MICROLITH_ERROR(...) SPDLOG_ERROR(__VA_ARGS__)
 #define MICROLITH_CRITICAL(...) SPDLOG_CRITICAL(__VA_ARGS__)
 #define MICROLITH_OFF(...) SPDLOG_OFF(__VA_ARGS__)
+#else
+#define MICROLITH_TRACE(...)
+#define MICROLITH_DEBUG(...)
+#define MICROLITH_INFO(...)
+#define MICROLITH_WARN(...)
+#define MICROLITH_ERROR(...)
+#define MICROLITH_CRITICAL(...)
+#define MICROLITH_OFF(...)
 #endif
 
 #endif  // INCLUDE_MICROLITH_DETAIL_LOG_H_

@@ -30,7 +30,7 @@
 #include "microlith/in_process_service_discoverer.h"
 #include "microlith/services.h"
 
-class empty_interface : public microlith::service_interface<test_interface> {
+class empty_interface : public microlith::service_interface<empty_interface> {
  public:
 };
 

@@ -126,8 +126,12 @@ class receives_services : public receives_service<Args>... {
   }
 };  // class receives_services
 
-class service_discovery_interface
-    : public service_interface<service_discovery_interface> {
+template <std::size_t apiVerison>
+class service_discovery_interface;
+
+template <>
+class service_discovery_interface<0>
+    : public service_interface<service_discovery_interface<0>> {
  public:
   virtual void discover(std::shared_ptr<abstract_service> service) = 0;
 };  // class service_discovery_interface

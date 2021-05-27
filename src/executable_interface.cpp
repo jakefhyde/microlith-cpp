@@ -29,8 +29,8 @@
 
 namespace microlith {
 
-void executable_interface::start() {}
+void executable_interface<0>::start() {}
 
-void executable_interface::stop() {}
+void executable_interface<0>::stop() {}
 
 }  // namespace microlith

@@ -34,7 +34,7 @@
 
 class test_executable
     : public microlith::service<test_executable>,
-      public microlith::provides_services<microlith::executable_interface> {
+      public microlith::provides_services<microlith::executable_interface<0>> {
  public:
   void start() override { _running = true; }
 
