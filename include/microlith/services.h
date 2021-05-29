@@ -39,6 +39,7 @@
 #include <ctti/type_id.hpp>
 
 #include "detail/log.h"
+#include "detail/macros.h"
 
 namespace microlith {
 
@@ -59,7 +60,7 @@ service_id get_service_id() {
 
 }  // namespace detail
 
-class abstract_service {
+class MICROLITH_EXPORT abstract_service {
  public:
   virtual ~abstract_service();
 
@@ -126,12 +127,10 @@ class receives_services : public receives_service<Args>... {
   }
 };  // class receives_services
 
-template <std::size_t apiVerison>
 class service_discovery_interface;
 
-template <>
-class service_discovery_interface<0>
-    : public service_interface<service_discovery_interface<0>> {
+class service_discovery_interface
+    : public service_interface<service_discovery_interface> {
  public:
   virtual void discover(std::shared_ptr<abstract_service> service) = 0;
 };  // class service_discovery_interface

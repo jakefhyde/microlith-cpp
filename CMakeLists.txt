@@ -15,11 +15,15 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -pedantic")
 
 set(PUBLIC_HEADERS
-  include/microlith/detail/log.h
   include/microlith/executable_interface.h
   include/microlith/in_process_service_discoverer.h
   include/microlith/service_executor.h
   include/microlith/services.h
+)
+
+set(PRIVATE_HEADERS
+  include/microlith/detail/log.h
+  include/microlith/detail/macros.h
 )
 
 set(SOURCES
@@ -29,7 +33,7 @@ set(SOURCES
   src/service_executor.cpp
 )
 
-add_library(microlith ${PUBLIC_HEADERS} ${SOURCES})
+add_library(microlith ${PUBLIC_HEADERS} ${PRIVATE_HEADERS} ${SOURCES})
 
 set(DEPS CONAN_PKG::ctti)
 
@@ -60,6 +64,10 @@ add_subdirectory(test)
 
 install(FILES ${PUBLIC_HEADERS}
   DESTINATION "include/microlith"
+)
+
+install(FILES ${PRIVATE_HEADERS}
+  DESTINATION "include/microlith/detail"
 )
 
 install(TARGETS microlith)

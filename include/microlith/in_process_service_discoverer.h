@@ -41,7 +41,7 @@ namespace microlith {
 
 class in_process_service_discoverer
     : public service<in_process_service_discoverer>,
-      public provides_services<service_discovery_interface<0>> {
+      public provides_services<service_discovery_interface> {
  public:
   void discover(std::shared_ptr<abstract_service> service) override;
 

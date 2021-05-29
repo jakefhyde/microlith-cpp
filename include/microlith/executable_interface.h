@@ -38,12 +38,7 @@
 
 namespace microlith {
 
-template <std::size_t apiVersion>
-class executable_interface;
-
-template <>
-class executable_interface<0>
-    : public service_interface<executable_interface<0>> {
+class executable_interface : public service_interface<executable_interface> {
  public:
   virtual void start();
   virtual void stop();

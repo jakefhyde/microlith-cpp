@@ -1,9 +1,9 @@
-from conans import ConanFile, CMake
+from conans import ConanFile, CMake, tools
 
 
 class MicrolithCppConan(ConanFile):
     name = "microlith"
-    version = "0.0.4"
+    version = "0.0.5"
     description = "C++ subscription-based DI framework"
     url = "https://github.com/dragozir/microlith"
     license = "MIT"
@@ -23,14 +23,14 @@ class MicrolithCppConan(ConanFile):
     }
     requires = (
         "ctti/0.0.2",
-        "gtest/1.10.0"
     )
     build_requires = (
         "cmake/3.19.7",
         "ninja/1.10.2",
+        "gtest/1.10.0"
     )
     exports_sources = "cmake/*", "CMakeLists.txt", "include/*", "src/*", "test/*"
-    generators = "cmake"
+    generators = "cmake", "cmake_find_package", "cmake_paths"
 
     def _configure_cmake(self):
         cmake = CMake(self)
@@ -50,5 +50,6 @@ class MicrolithCppConan(ConanFile):
         cmake.test()
 
     def package(self):
+        self.cpp_info.libs = tools.collect_libs(self)
         cmake = self._configure_cmake()
         cmake.install()

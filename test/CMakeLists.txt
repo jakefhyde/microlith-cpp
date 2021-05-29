@@ -9,8 +9,8 @@ add_executable(microlith-tests
 
 target_link_libraries(microlith-tests
   microlith
-  GTest::GTest
-  GTest::Main
+  GTest::gtest
+  GTest::gtest_main
 )
 
 gtest_discover_tests(microlith-tests)
