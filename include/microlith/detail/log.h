@@ -29,6 +29,10 @@
 #define INCLUDE_MICROLITH_DETAIL_LOG_H_
 
 #ifndef MICROLITH_NO_SPDLOG
+#define MICROLITH_NO_SPDLOG 0
+#endif  // MICROLITH_NO_SPDLOG
+
+#if MICROLITH_NO_SPDLOG
 #include <spdlog/spdlog.h>
 #define MICROLITH_TRACE(...) SPDLOG_TRACE(__VA_ARGS__)
 #define MICROLITH_DEBUG(...) SPDLOG_DEBUG(__VA_ARGS__)
@@ -59,7 +63,7 @@
 #ifndef MICROLITH_OFF
 #define MICROLITH_OFF(...)
 #endif  // MICROLITH_OFF
-#endif
+#endif  // MICROLITH_NO_SPDLOG
 
 /**
  * @def MICROLITH_TRACE

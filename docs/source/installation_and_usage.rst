@@ -39,8 +39,18 @@ CMakeLists.txt files have been carefully crafted to allow alternatives build
 systems and environments.
 
 **spdlog** can be disabled by using the ``MICROLITH_NO_SPDLOG`` cmake
-definition seen below
+definition seen below:
 
 .. code:: cmake
 
-    cmake -DMICROLITH_NO_SPDLOG=1
+    cmake -DMICROLITH_NO_SPDLOG='ON'
+
+**ctti** can be embedded within **microlith** in the event that it cannot be
+found with ``find_package`` through a similar fashion:
+
+.. code:: cmake
+
+    cmake -DMICROLITH_EMBED_CTTI='ON'
+
+CMake + Conan
+^^^^^^^^^^^^^

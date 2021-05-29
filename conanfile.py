@@ -37,12 +37,12 @@ class MicrolithCppConan(ConanFile):
         cmake.definitions['MICROLITH_VERSION'] = self.version
         cmake.definitions['BUILD_SYSTEM'] = 'CONAN'
         if not self.options.log:
-            cmake.definitions['MICROLITH_NO_SPDLOG'] = '1'
+            cmake.definitions['MICROLITH_NO_SPDLOG'] = 'ON'
         if self.options.embed_ctti:
             if os.listdir('3rdparty/ctti') == []:
                 git = tools.Git()
                 git.run("submodule update --init")
-            cmake.definitions['MICROLITH_EMBED_CTTI'] = '1'
+            cmake.definitions['MICROLITH_EMBED_CTTI'] = 'ON'
         cmake.configure()
         return cmake
 

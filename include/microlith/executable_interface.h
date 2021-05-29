@@ -38,10 +38,6 @@
 
 namespace microlith {
 
-/**
- * @brief represents
- *
- */
 class executable_interface : public service_interface<executable_interface> {
  public:
   virtual void start();

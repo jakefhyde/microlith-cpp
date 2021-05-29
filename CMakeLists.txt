@@ -2,8 +2,6 @@
 cmake_minimum_required(VERSION 3.16.3)
 project(microlith LANGUAGES CXX)
 
-include(cmake/meta.cmake)
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra -pedantic")
 
@@ -28,18 +26,6 @@ set(SOURCES
 
 add_library(microlith ${PUBLIC_HEADERS} ${PRIVATE_HEADERS} ${SOURCES})
 
-set(DEPS ctti::ctti)
-
-if(DEFINED MICROLITH_NO_SPDLOG)
-target_compile_definitions(microlith
-  PUBLIC
-    MICROLITH_NO_SPDLOG=1
-)
-else()
-find_package(spdlog REQUIRED)
-list(APPEND DEPS spdlog::spdlog)
-endif()
-
 target_include_directories(microlith
   PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -47,9 +33,11 @@ target_include_directories(microlith
     ${CMAKE_CURRENT_SOURCE_DIR}/include/detail
 )
 
+include(cmake/meta.cmake)
+
 target_link_libraries(microlith
   PUBLIC
-    ${DEPS}
+    ${MICROLITH_DEPS}
 )
 
 enable_testing()
