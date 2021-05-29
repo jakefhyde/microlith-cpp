@@ -40,6 +40,25 @@
 
 namespace microlith {
 
+/**
+ * @brief Simple executor class which manages starting and stopping of basic
+ * services.
+ *
+ * @details The service_executor is itself an executable_interface: starting it
+ * starts all previously received services, and stopping does the same
+ *
+ * @note This class is provided as a convenience class, and many services may
+ * not have states analogous to "start" and "stop": that's ok.
+ *
+ * @provides
+ * - executable_interface
+ *
+ * @receives
+ * - executable_interface
+ *
+ * @sa executable_interface
+ *
+ */
 class service_executor : public service<service_executor>,
                          public provides_services<executable_interface>,
                          public receives_services<executable_interface> {

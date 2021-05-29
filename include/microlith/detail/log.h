@@ -38,13 +38,38 @@
 #define MICROLITH_CRITICAL(...) SPDLOG_CRITICAL(__VA_ARGS__)
 #define MICROLITH_OFF(...) SPDLOG_OFF(__VA_ARGS__)
 #else
+#ifndef MICROLITH_TRACE
 #define MICROLITH_TRACE(...)
+#endif  // MICROLITH_TRACE
+#ifndef MICROLITH_DEBUG
 #define MICROLITH_DEBUG(...)
+#endif  // MICROLITH_DEBUG
+#ifndef MICROLITH_INFO
 #define MICROLITH_INFO(...)
+#endif  // MICROLITH_INFO
+#ifndef MICROLITH_WARN
 #define MICROLITH_WARN(...)
+#endif  // MICROLITH_WARN
+#ifndef MICROLITH_ERROR
 #define MICROLITH_ERROR(...)
+#endif  // MICROLITH_ERROR
+#ifndef MICROLITH_CRITICAL
 #define MICROLITH_CRITICAL(...)
+#endif  // MICROLITH_CRITICAL
+#ifndef MICROLITH_OFF
 #define MICROLITH_OFF(...)
+#endif  // MICROLITH_OFF
 #endif
+
+/**
+ * @def MICROLITH_TRACE
+ *
+ * @brief Macro for trace logging
+ *
+ * @details If MICROLITH_NO_SPDLOG is not defined, calls the SPDLOG_TRACE macro.
+ * Otherwise checks if the macro is already defined and if not defines an empty
+ * definition.
+ *
+ */
 
 #endif  // INCLUDE_MICROLITH_DETAIL_LOG_H_

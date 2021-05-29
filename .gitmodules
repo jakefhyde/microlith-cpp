@@ -1,0 +1,3 @@
+[submodule "3rdparty/ctti"]
+	path = 3rdparty/ctti
+	url = https://github.com/Manu343726/ctti
