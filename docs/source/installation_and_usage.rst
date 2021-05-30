@@ -13,8 +13,7 @@ Dependencies
 Currently **microlith** requires **ctti** in order to extract service names
 from types, however this requirement is tentative and subject to change in a
 future release. **microlith** also requires **spdlog**, but can be configured
-to disable this dependency and remove/override logging. See
-`Configuration <configuration.html>`_ for more info.
+to disable this dependency and remove/override logging.
 
 Installation
 ------------
@@ -41,16 +40,61 @@ systems and environments.
 **spdlog** can be disabled by using the ``MICROLITH_NO_SPDLOG`` cmake
 definition seen below:
 
-.. code:: cmake
+.. code:: shell
 
     cmake -DMICROLITH_NO_SPDLOG='ON'
 
 **ctti** can be embedded within **microlith** in the event that it cannot be
 found with ``find_package`` through a similar fashion:
 
-.. code:: cmake
+.. code:: shell
 
     cmake -DMICROLITH_EMBED_CTTI='ON'
 
 CMake + Conan
 ^^^^^^^^^^^^^
+
+Conan is targeted primarily as it is currently the standard build system for
+**microlith**.
+
+.. note::
+
+    The `official Conan documentation <https://docs.conan.io/>`_ is the primary
+    resource for learning about Conan.
+
+**microlith** releases are not currently hosted on the
+`Conan-Center <https://conan.io/center/>`_, however that is the ultimate goal
+once **microlith** leaves the alpha stage. Conan packages can be created using
+the following steps:
+
+1. Clone the repository
+
+.. code:: shell
+
+    git clone ssh://git@github.com:dragozir/microlith-cpp.git
+
+2. Prepare the build directories
+
+.. code:: shell
+
+    cd microlith-cpp
+    mkdir build && cd build
+
+3. Build using Conan
+
+.. code:: shell
+
+    conan create ..
+
+4. Add **microlith** as a requirement in your conanfile
+
+.. code-block:: ini
+    :caption: conanfile.txt
+
+    [requires]
+    microlith/0.0.5
+
+.. code-block:: py
+    :caption: conanfile.py
+
+    requires = ("microlith/0.0.5",)
